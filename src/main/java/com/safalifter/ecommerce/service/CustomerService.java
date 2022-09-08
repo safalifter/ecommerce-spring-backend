@@ -4,6 +4,7 @@ import com.safalifter.ecommerce.dto.Converter;
 import com.safalifter.ecommerce.dto.CustomerCreateRequest;
 import com.safalifter.ecommerce.dto.CustomerDto;
 import com.safalifter.ecommerce.dto.UpdateCustomerRequest;
+import com.safalifter.ecommerce.error.UserNotFoundException;
 import com.safalifter.ecommerce.model.Customer;
 import com.safalifter.ecommerce.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,6 @@ public class CustomerService {
     }
 
     private Customer findCustomerById(Long id) {
-        return customerRepository.findById(id).orElse(null);
+        return customerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }
