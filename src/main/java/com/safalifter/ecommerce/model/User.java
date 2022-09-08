@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -21,8 +22,10 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String username;
 
+    @NotBlank
     private String password;
 
     @Column(unique = true)

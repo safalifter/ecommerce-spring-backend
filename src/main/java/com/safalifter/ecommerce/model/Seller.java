@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @NoArgsConstructor
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 public class Seller extends User {
+    @NotBlank
     private String companyName;
     private String about;
 }

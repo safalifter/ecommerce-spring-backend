@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class SellerController {
     }
 
     @PostMapping
-    public ResponseEntity<SellerDto> createSeller(@RequestBody SellerCreateRequest request) {
+    public ResponseEntity<SellerDto> createSeller(@Valid @RequestBody SellerCreateRequest request) {
         return new ResponseEntity<>(sellerService.createSeller(request), HttpStatus.CREATED);
     }
 
@@ -35,7 +36,7 @@ public class SellerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SellerDto> updateSeller(@PathVariable Long id, @RequestBody UpdateSellerRequest request) {
+    public ResponseEntity<SellerDto> updateSeller(@PathVariable Long id, @Valid @RequestBody UpdateSellerRequest request) {
         return ResponseEntity.ok(sellerService.updateSeller(id, request));
     }
 
