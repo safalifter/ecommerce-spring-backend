@@ -11,6 +11,7 @@ import com.safalifter.ecommerce.repository.CreditCardRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,9 +58,11 @@ public class CreditCardService {
         return creditCardRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found"));
     }
 
+    // if creditCardRepository.findByCustomer_Id(id) return null we can use Optional.ofNullable() but this method's returning empty
     public List<CreditCardDto> getAllCreditCardsByCustomerId(Long id) {
-        if (!creditCardRepository.findByCustomer_Id(id).isEmpty())
-            return creditCardRepository.findByCustomer_Id(id).stream().map(converter::creditCardConvertToDto).collect(Collectors.toList());
-        throw new NotFoundException("Customer not found");
+        return creditCardRepository.findByCustomer_Id(id).stream()
+                .map(converter::creditCardConvertToDto)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
+                .filter(c -> !c.isEmpty()).orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 }
