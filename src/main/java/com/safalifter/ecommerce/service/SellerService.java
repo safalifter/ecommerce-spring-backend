@@ -4,7 +4,7 @@ import com.safalifter.ecommerce.dto.Converter;
 import com.safalifter.ecommerce.dto.SellerCreateRequest;
 import com.safalifter.ecommerce.dto.SellerDto;
 import com.safalifter.ecommerce.dto.UpdateSellerRequest;
-import com.safalifter.ecommerce.error.UserNotFoundException;
+import com.safalifter.ecommerce.error.NotFoundException;
 import com.safalifter.ecommerce.model.Seller;
 import com.safalifter.ecommerce.repository.SellerRepository;
 import org.springframework.stereotype.Service;
@@ -50,12 +50,12 @@ public class SellerService {
         return converter.sellerConvertToDto(sellerRepository.save(inDB));
     }
 
-    public void deleteSeller(Long id) {
+    public void deleteSellerById(Long id) {
         Seller seller = findSellerById(id);
         sellerRepository.delete(seller);
     }
 
     private Seller findSellerById(Long id) {
-        return sellerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        return sellerRepository.findById(id).orElseThrow(() -> new NotFoundException("Seller not found"));
     }
 }

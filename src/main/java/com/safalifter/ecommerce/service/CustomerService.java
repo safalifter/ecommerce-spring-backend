@@ -4,12 +4,13 @@ import com.safalifter.ecommerce.dto.Converter;
 import com.safalifter.ecommerce.dto.CustomerCreateRequest;
 import com.safalifter.ecommerce.dto.CustomerDto;
 import com.safalifter.ecommerce.dto.UpdateCustomerRequest;
-import com.safalifter.ecommerce.error.UserNotFoundException;
+import com.safalifter.ecommerce.error.NotFoundException;
 import com.safalifter.ecommerce.model.Customer;
 import com.safalifter.ecommerce.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,8 +31,7 @@ public class CustomerService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .gender(request.getGender())
-
-                .build();
+                .creditCards(Set.of()).build();
         return converter.customerConvertToDto(customerRepository.save(customer));
     }
 
@@ -54,12 +54,12 @@ public class CustomerService {
         return converter.customerConvertToDto(customerRepository.save(inDB));
     }
 
-    public void deleteCustomer(Long id) {
+    public void deleteCustomerById(Long id) {
         Customer customer = findCustomerById(id);
         customerRepository.delete(customer);
     }
 
-    private Customer findCustomerById(Long id) {
-        return customerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    protected Customer findCustomerById(Long id) {
+        return customerRepository.findById(id).orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 }

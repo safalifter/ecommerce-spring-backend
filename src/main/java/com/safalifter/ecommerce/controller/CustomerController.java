@@ -1,8 +1,6 @@
 package com.safalifter.ecommerce.controller;
 
-import com.safalifter.ecommerce.dto.CustomerCreateRequest;
-import com.safalifter.ecommerce.dto.CustomerDto;
-import com.safalifter.ecommerce.dto.UpdateCustomerRequest;
+import com.safalifter.ecommerce.dto.*;
 import com.safalifter.ecommerce.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,9 +39,8 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
+    public ResponseEntity<Void> deleteCustomerById(@PathVariable Long id) {
+        customerService.deleteCustomerById(id);
         return ResponseEntity.ok().build();
     }
-
 }
