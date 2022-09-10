@@ -8,18 +8,16 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class CreditCardCreateRequest {
-    private Long id;
+public class ProductCreateRequest {
+    private long id;
 
     @NotBlank
-    private String creditCardNumber;
+    private String name;
 
-    @NotBlank
-    private String expirationDate;
+    private String description;
 
-    @NotBlank
-    private String cvc;
+    private double price;
 
     @NotNull
-    private Long customerId;
+    private Long sellerId;
 }

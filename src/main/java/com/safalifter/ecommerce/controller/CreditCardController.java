@@ -25,11 +25,6 @@ public class CreditCardController {
         return new ResponseEntity<>(creditCardService.addCreditCard(request), HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CreditCardDto>> getAllCreditCards() {
-        return ResponseEntity.ok(creditCardService.getAllCreditCards());
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<CreditCardDto> getCreditCardById(@PathVariable Long id) {
         return ResponseEntity.ok(creditCardService.getCreditCardById(id));

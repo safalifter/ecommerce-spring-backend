@@ -12,21 +12,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreditCard {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
+    private String name;
+
+    private String description;
+
+    private double price = 0.0;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
-
-    @Column(nullable = false)
-    private String creditCardNumber;
-
-    @Column(nullable = false)
-    private String expirationDate;
-
-    @Column(nullable = false)
-    private String cvc;
+    @JoinColumn(name = "seller_id", nullable = false)
+    private Seller seller;
 }

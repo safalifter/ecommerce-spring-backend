@@ -10,6 +10,7 @@ import com.safalifter.ecommerce.repository.SellerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,7 +56,14 @@ public class SellerService {
         sellerRepository.delete(seller);
     }
 
-    private Seller findSellerById(Long id) {
-        return sellerRepository.findById(id).orElseThrow(() -> new NotFoundException("Seller not found"));
+    protected Seller findSellerById(Long id) {
+        return sellerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Seller not found"));
+    }
+
+    // sellerRepository.findSellerByProducts_Id(id) return null because return type isn't list
+    public SellerDto getSellerByProductId(Long id) {
+        return converter.sellerConvertToDto(Optional.ofNullable(sellerRepository.findSellerByProducts_Id(id))
+                .orElseThrow(() -> new NotFoundException("Product not found")));
     }
 }

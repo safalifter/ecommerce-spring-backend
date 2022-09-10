@@ -32,10 +32,6 @@ public class CreditCardService {
         return converter.creditCardConvertToDto(creditCardRepository.save(creditCard));
     }
 
-    public List<CreditCardDto> getAllCreditCards() {
-        return creditCardRepository.findAll().stream().map(converter::creditCardConvertToDto).collect(Collectors.toList());
-    }
-
     public CreditCardDto getCreditCardById(Long id) {
         CreditCard creditCard = findCreditCardById(id);
         return converter.creditCardConvertToDto(creditCard);

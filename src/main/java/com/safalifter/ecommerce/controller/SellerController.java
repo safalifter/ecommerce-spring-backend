@@ -45,4 +45,9 @@ public class SellerController {
         sellerService.deleteSellerById(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/getSellerByProductId/{id}")
+    public ResponseEntity<SellerDto> getSellerByProductId(@PathVariable Long id) {
+        return ResponseEntity.ok(sellerService.getSellerByProductId(id));
+    }
 }
