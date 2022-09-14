@@ -25,11 +25,11 @@ public class SellerService {
 
     public SellerDto createSeller(SellerCreateRequest request) {
         Seller seller = Seller.builder()
-                .username(request.getUsername())
                 .password(request.getPassword())
                 .email(request.getEmail())
                 .companyName(request.getCompanyName())
-                .about(request.getAbout()).build();
+                .about(request.getAbout())
+                .products(List.of()).build();
         return converter.sellerConvertToDto(sellerRepository.save(seller));
     }
 
@@ -44,7 +44,6 @@ public class SellerService {
 
     public SellerDto updateSeller(Long id, UpdateSellerRequest request) {
         Seller inDB = findSellerById(id);
-        inDB.setUsername(request.getUsername());
         inDB.setPassword(request.getPassword());
         inDB.setCompanyName(request.getCompanyName());
         inDB.setAbout(request.getAbout());

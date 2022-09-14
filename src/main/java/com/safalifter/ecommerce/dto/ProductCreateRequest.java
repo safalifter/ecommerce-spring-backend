@@ -18,6 +18,8 @@ public class ProductCreateRequest {
 
     private double price;
 
+    private int quantity;
+
     @NotNull
     private Long sellerId;
 }

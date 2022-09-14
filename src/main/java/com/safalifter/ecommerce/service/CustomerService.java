@@ -6,6 +6,7 @@ import com.safalifter.ecommerce.dto.CustomerDto;
 import com.safalifter.ecommerce.dto.UpdateCustomerRequest;
 import com.safalifter.ecommerce.error.NotFoundException;
 import com.safalifter.ecommerce.model.Customer;
+import com.safalifter.ecommerce.model.ShoppingCart;
 import com.safalifter.ecommerce.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final Converter converter;
 
+
     public CustomerService(CustomerRepository customerRepository, Converter converter) {
         this.customerRepository = customerRepository;
         this.converter = converter;
@@ -25,13 +27,13 @@ public class CustomerService {
 
     public CustomerDto createCustomer(CustomerCreateRequest request) {
         Customer customer = Customer.builder()
-                .username(request.getUsername())
                 .password(request.getPassword())
                 .email(request.getEmail())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .gender(request.getGender())
-                .creditCards(Set.of()).build();
+                .creditCards(Set.of())
+                .shoppingCart(new ShoppingCart()).build();
         return converter.customerConvertToDto(customerRepository.save(customer));
     }
 
@@ -46,7 +48,6 @@ public class CustomerService {
 
     public CustomerDto updateCustomer(Long id, UpdateCustomerRequest request) {
         Customer inDB = findCustomerById(id);
-        inDB.setUsername(request.getUsername());
         inDB.setPassword(request.getPassword());
         inDB.setFirstName(request.getFirstName());
         inDB.setLastName(request.getLastName());

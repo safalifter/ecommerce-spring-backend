@@ -28,7 +28,7 @@ public class ProductService {
 
     public ProductDto addProduct(ProductCreateRequest request) {
         Seller seller = sellerService.findSellerById(request.getSellerId());
-        Product product = new Product(request.getId(), request.getName(), request.getDescription(), request.getPrice(), seller);
+        Product product = new Product(request.getId(), request.getName(), request.getDescription(), request.getPrice(), request.getQuantity(), seller);
         return converter.productConvertToDto(productRepository.save(product));
     }
 
@@ -45,6 +45,7 @@ public class ProductService {
         inDB.setName(request.getName());
         inDB.setDescription(request.getDescription());
         inDB.setPrice(request.getPrice());
+        inDB.setQuantity(request.getQuantity());
         return converter.productConvertToDto(productRepository.save(inDB));
     }
 

@@ -8,8 +8,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.Set;
 
 @Entity
@@ -17,12 +17,15 @@ import java.util.Set;
 @SuperBuilder
 @Getter
 @Setter
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "creditCards"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "shoppingCart"})
 public class Customer extends User {
     private String firstName;
     private String lastName;
     private Gender gender;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<CreditCard> creditCards;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private ShoppingCart shoppingCart;
 }

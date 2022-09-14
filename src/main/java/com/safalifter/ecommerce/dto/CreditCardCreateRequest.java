@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class CreditCardCreateRequest {
-    private Long id;
+    private long id;
 
     @NotBlank
     private String creditCardNumber;

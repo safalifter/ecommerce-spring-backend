@@ -1,31 +1,27 @@
 package com.safalifter.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "products"})
+public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToMany
+    private List<Product> products;
 
-    private String description;
-
-    private double price = 0.0;
-
-    private int quantity = 1;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "seller_id", nullable = false)
-    private Seller seller;
+    private double totalPrice = 0.0;
 }

@@ -13,8 +13,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class CustomerCreateRequest {
-    @NotBlank
-    private String username;
+    private long id;
 
     @NotBlank(message = "Password can not be blank")
     @Size(min = 8)
