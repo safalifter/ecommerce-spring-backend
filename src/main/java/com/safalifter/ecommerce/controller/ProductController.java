@@ -27,11 +27,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok(productService.getAllProducts(name));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping({"/{id}"})
     public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductById(id));
     }

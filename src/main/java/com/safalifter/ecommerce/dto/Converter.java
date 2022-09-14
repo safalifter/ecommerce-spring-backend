@@ -8,13 +8,13 @@ import java.util.stream.Collectors;
 @Component
 public class Converter {
     public SellerDto sellerConvertToDto(Seller from) {
-        return new SellerDto(from.getId(),from.getEmail(),
+        return new SellerDto(from.getId(), from.getEmail(),
                 from.getCompanyName(), from.getAbout(),
                 from.getProducts().stream().map(this::productConvertToDto).collect(Collectors.toList()));
     }
 
     public CustomerDto customerConvertToDto(Customer from) {
-        return new CustomerDto(from.getId(),from.getEmail(),
+        return new CustomerDto(from.getId(), from.getEmail(),
                 from.getFirstName(), from.getLastName(), from.getGender(),
                 from.getCreditCards().stream().map(this::creditCardConvertToDto).collect(Collectors.toSet()),
                 from.getShoppingCart());
@@ -30,5 +30,9 @@ public class Converter {
 
     public ShoppingCartDto shoppingCartConvertToDto(ShoppingCart from) {
         return new ShoppingCartDto(from.getId(), from.getProducts(), from.getTotalPrice());
+    }
+
+    public UserDto userConvertToDto(User user) {
+        return new UserDto(user.getId(), user.getEmail());
     }
 }

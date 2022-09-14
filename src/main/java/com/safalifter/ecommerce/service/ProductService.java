@@ -32,7 +32,9 @@ public class ProductService {
         return converter.productConvertToDto(productRepository.save(product));
     }
 
-    public List<ProductDto> getAllProducts() {
+    public List<ProductDto> getAllProducts(String name) {
+        if (Optional.ofNullable(name).isPresent())
+            return getProductsByName(name);
         return productRepository.findAll().stream().map(converter::productConvertToDto).collect(Collectors.toList());
     }
 
@@ -64,5 +66,12 @@ public class ProductService {
                 .map(converter::productConvertToDto)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
                 .filter(p -> !p.isEmpty()).orElseThrow(() -> new NotFoundException("Seller not found"));
+    }
+
+    public List<ProductDto> getProductsByName(String name) {
+        return productRepository.findProductByNameIgnoreCase(name).stream()
+                .map(converter::productConvertToDto)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
+                .filter(p -> !p.isEmpty()).orElseThrow(() -> new NotFoundException("Product not found"));
     }
 }
