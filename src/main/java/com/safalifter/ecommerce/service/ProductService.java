@@ -32,10 +32,13 @@ public class ProductService {
         return converter.productConvertToDto(productRepository.save(product));
     }
 
-    public List<ProductDto> getAllProducts(String name) {
-        if (Optional.ofNullable(name).isPresent())
-            return getProductsByName(name);
+    public List<ProductDto> getAllProducts() {
         return productRepository.findAll().stream().map(converter::productConvertToDto).collect(Collectors.toList());
+    }
+
+    // overload
+    public List<ProductDto> getAllProducts(String name) {
+        return getProductsByName(name);
     }
 
     public ProductDto getProductById(Long id) {
@@ -69,7 +72,7 @@ public class ProductService {
     }
 
     public List<ProductDto> getProductsByName(String name) {
-        return productRepository.findProductByNameIgnoreCase(name).stream()
+        return productRepository.findProductByNameStartsWithIgnoreCase(name).stream()
                 .map(converter::productConvertToDto)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
                 .filter(p -> !p.isEmpty()).orElseThrow(() -> new NotFoundException("Product not found"));

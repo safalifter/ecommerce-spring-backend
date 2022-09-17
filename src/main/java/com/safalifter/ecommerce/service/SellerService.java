@@ -5,6 +5,7 @@ import com.safalifter.ecommerce.dto.SellerCreateRequest;
 import com.safalifter.ecommerce.dto.SellerDto;
 import com.safalifter.ecommerce.dto.UpdateSellerRequest;
 import com.safalifter.ecommerce.error.NotFoundException;
+import com.safalifter.ecommerce.model.Role;
 import com.safalifter.ecommerce.model.Seller;
 import com.safalifter.ecommerce.repository.SellerRepository;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,8 @@ public class SellerService {
                 .email(request.getEmail())
                 .companyName(request.getCompanyName())
                 .about(request.getAbout())
-                .products(List.of()).build();
+                .products(List.of())
+                .role(Role.SELLER).build();
         return converter.sellerConvertToDto(sellerRepository.save(seller));
     }
 

@@ -1,5 +1,6 @@
 package com.safalifter.ecommerce.dto;
 
+import com.safalifter.ecommerce.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,4 +16,5 @@ public class SellerDto {
     private String companyName;
     private String about;
     private List<ProductDto> products;
+    private Role role;
 }

@@ -6,6 +6,7 @@ import com.safalifter.ecommerce.dto.CustomerDto;
 import com.safalifter.ecommerce.dto.UpdateCustomerRequest;
 import com.safalifter.ecommerce.error.NotFoundException;
 import com.safalifter.ecommerce.model.Customer;
+import com.safalifter.ecommerce.model.Role;
 import com.safalifter.ecommerce.model.ShoppingCart;
 import com.safalifter.ecommerce.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,8 @@ public class CustomerService {
                 .lastName(request.getLastName())
                 .gender(request.getGender())
                 .creditCards(Set.of())
-                .shoppingCart(new ShoppingCart()).build();
+                .shoppingCart(new ShoppingCart())
+                .role(Role.CUSTOMER).build();
         return converter.customerConvertToDto(customerRepository.save(customer));
     }
 

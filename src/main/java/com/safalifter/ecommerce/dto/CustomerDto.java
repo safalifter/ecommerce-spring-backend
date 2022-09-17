@@ -1,6 +1,7 @@
 package com.safalifter.ecommerce.dto;
 
 import com.safalifter.ecommerce.model.Gender;
+import com.safalifter.ecommerce.model.Role;
 import com.safalifter.ecommerce.model.ShoppingCart;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,4 +20,5 @@ public class CustomerDto {
     private Gender gender;
     private Set<CreditCardDto> creditCards;
     private ShoppingCart shoppingCart;
+    private Role role;
 }

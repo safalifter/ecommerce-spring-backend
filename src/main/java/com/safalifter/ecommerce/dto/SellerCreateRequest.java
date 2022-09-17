@@ -24,7 +24,6 @@ public class SellerCreateRequest {
     @UniqueEmail
     private String email;
 
-    @NotBlank
     private String companyName;
     private String about;
 }
