@@ -1,30 +1,56 @@
 package com.safalifter.ecommerce.service;
 
 import com.safalifter.ecommerce.dto.AuthRequest;
-import com.safalifter.ecommerce.dto.Converter;
-import com.safalifter.ecommerce.dto.UserDto;
+import com.safalifter.ecommerce.dto.AuthResponse;
+import com.safalifter.ecommerce.dto.RegisterRequest;
+import com.safalifter.ecommerce.dto.RegisterResponse;
 import com.safalifter.ecommerce.error.AuthException;
-import com.safalifter.ecommerce.model.User;
-import com.safalifter.ecommerce.repository.UserRepository;
+import com.safalifter.ecommerce.security.JwtUtil;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthService {
-    private final UserRepository userRepository;
-    private final Converter converter;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    private final CustomerService customerService;
+    private final SellerService sellerService;
+    private final UserDetailsService userDetailsService;
 
-    public AuthService(UserRepository userRepository, Converter converter) {
-        this.userRepository = userRepository;
-        this.converter = converter;
+    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
+                       JwtUtil jwtUtil, CustomerService customerService, SellerService sellerService, UserDetailsService userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+        this.customerService = customerService;
+        this.sellerService = sellerService;
+        this.userDetailsService = userDetailsService;
     }
 
-    public UserDto authenticate(AuthRequest authRequest) {
-        User inDB = userRepository.findByEmail(authRequest.getEmail());
-        if (Optional.ofNullable(inDB).isPresent() && inDB.getPassword().matches(authRequest.getPassword())) {
-            return converter.userConvertToDto(inDB);
+    public AuthResponse authenticate(AuthRequest authRequest) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
+        } catch (Exception ex) {
+            throw new AuthException("Login failed.");
         }
-        throw new AuthException();
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
+        final String jwt = jwtUtil.generateToken(userDetails);
+        return new AuthResponse(userDetails.getUsername(), jwt);
+    }
+
+    public RegisterResponse register(RegisterRequest request) {
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        if (request.getRole().toString().equals("CUSTOMER")) {
+            customerService.createCustomer(request);
+            return new RegisterResponse(request.getEmail(), request.getRole());
+        } else if (request.getRole().toString().equals("SELLER")) {
+            sellerService.createSeller(request);
+            return new RegisterResponse(request.getEmail(), request.getRole());
+        }
+        return null;
     }
 }

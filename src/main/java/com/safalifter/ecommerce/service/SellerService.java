@@ -1,7 +1,7 @@
 package com.safalifter.ecommerce.service;
 
 import com.safalifter.ecommerce.dto.Converter;
-import com.safalifter.ecommerce.dto.SellerCreateRequest;
+import com.safalifter.ecommerce.dto.RegisterRequest;
 import com.safalifter.ecommerce.dto.SellerDto;
 import com.safalifter.ecommerce.dto.UpdateSellerRequest;
 import com.safalifter.ecommerce.error.NotFoundException;
@@ -24,15 +24,12 @@ public class SellerService {
         this.converter = converter;
     }
 
-    public SellerDto createSeller(SellerCreateRequest request) {
+    public void createSeller(RegisterRequest request) {
         Seller seller = Seller.builder()
                 .password(request.getPassword())
                 .email(request.getEmail())
-                .companyName(request.getCompanyName())
-                .about(request.getAbout())
-                .products(List.of())
                 .role(Role.SELLER).build();
-        return converter.sellerConvertToDto(sellerRepository.save(seller));
+        sellerRepository.save(seller);
     }
 
     public List<SellerDto> getAllSellers() {
@@ -46,9 +43,9 @@ public class SellerService {
 
     public SellerDto updateSeller(Long id, UpdateSellerRequest request) {
         Seller inDB = findSellerById(id);
-        inDB.setPassword(request.getPassword());
-        inDB.setCompanyName(request.getCompanyName());
-        inDB.setAbout(request.getAbout());
+        inDB.setPassword(Optional.ofNullable(request.getPassword()).orElse(inDB.getPassword()));
+        inDB.setCompanyName(Optional.ofNullable(request.getCompanyName()).orElse(inDB.getCompanyName()));
+        inDB.setAbout(Optional.ofNullable(request.getAbout()).orElse(inDB.getAbout()));
         return converter.sellerConvertToDto(sellerRepository.save(inDB));
     }
 

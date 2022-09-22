@@ -1,10 +1,8 @@
 package com.safalifter.ecommerce.controller;
 
-import com.safalifter.ecommerce.dto.SellerCreateRequest;
 import com.safalifter.ecommerce.dto.SellerDto;
 import com.safalifter.ecommerce.dto.UpdateSellerRequest;
 import com.safalifter.ecommerce.service.SellerService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +16,6 @@ public class SellerController {
 
     public SellerController(SellerService sellerService) {
         this.sellerService = sellerService;
-    }
-
-    @PostMapping
-    public ResponseEntity<SellerDto> createSeller(@Valid @RequestBody SellerCreateRequest request) {
-        return new ResponseEntity<>(sellerService.createSeller(request), HttpStatus.CREATED);
     }
 
     @GetMapping
