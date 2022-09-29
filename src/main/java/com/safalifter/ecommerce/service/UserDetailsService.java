@@ -1,9 +1,12 @@
 package com.safalifter.ecommerce.service;
 
+import com.safalifter.ecommerce.model.User;
 import com.safalifter.ecommerce.repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.safalifter.ecommerce.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
@@ -14,7 +17,9 @@ public class UserDetailsService implements org.springframework.security.core.use
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username);
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+        Optional.ofNullable(user).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new CustomUserDetails(user);
     }
 }

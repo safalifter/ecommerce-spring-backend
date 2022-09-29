@@ -39,7 +39,7 @@ public class AuthService {
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
-        return new AuthResponse(userDetails.getUsername(), jwt);
+        return new AuthResponse(userDetails.getUsername(), userDetails.getAuthorities().toString(), jwt);
     }
 
     public RegisterResponse register(RegisterRequest request) {
